@@ -151,8 +151,8 @@ print("✅ Metrics saved successfully!")
 # ----------------------------
 # SAVE MODEL + ENCODERS
 # ----------------------------
-pickle.dump(model, open("model.pkl", "wb"))
-pickle.dump(X.columns, open("columns.pkl", "wb"))
-pickle.dump(scaler, open("scaler.pkl", "wb"))
+joblib.dump(model, "model.pkl")
+joblib.dump(X.columns, "columns.pkl")
+joblib.dump(scaler, "scaler.pkl")
 
 print("\n✅ Model and encoders saved successfully!")

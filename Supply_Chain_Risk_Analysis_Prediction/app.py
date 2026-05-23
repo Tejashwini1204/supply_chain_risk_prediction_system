@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import pickle
+#import pickle
+import joblib
 from datetime import datetime
 import sqlite3
 import os
@@ -347,16 +348,33 @@ def load_db_data():
 # --------------------------
 df = pd.read_csv(os.path.join(BASE_DIR, "SCMS_Delivery_History_Dataset.csv"))
 
-# Load model & encoders
-model = pickle.load(open(os.path.join(BASE_DIR, "model.pkl"), "rb"))
-le_vendor = pickle.load(open(os.path.join(BASE_DIR, "le_vendor.pkl"), "rb"))
-le_mode = pickle.load(open(os.path.join(BASE_DIR, "le_mode.pkl"), "rb"))
-scaler = pickle.load(open(os.path.join(BASE_DIR, "scaler.pkl"), "rb"))
-columns = pickle.load(open(os.path.join(BASE_DIR, "columns.pkl"), "rb"))
+# --------------------------
+# LOAD MODEL & FILES
+# --------------------------
 
-import joblib
+model = joblib.load(
+    os.path.join(BASE_DIR, "model.pkl")
+)
 
-metrics = joblib.load(os.path.join(BASE_DIR, "metrics.pkl"))
+le_vendor = joblib.load(
+    os.path.join(BASE_DIR, "le_vendor.pkl")
+)
+
+le_mode = joblib.load(
+    os.path.join(BASE_DIR, "le_mode.pkl")
+)
+
+scaler = joblib.load(
+    os.path.join(BASE_DIR, "scaler.pkl")
+)
+
+columns = joblib.load(
+    os.path.join(BASE_DIR, "columns.pkl")
+)
+
+metrics = joblib.load(
+    os.path.join(BASE_DIR, "metrics.pkl")
+)
 
 accuracy = metrics["accuracy"]
 precision = metrics["precision"]
@@ -965,10 +983,12 @@ elif menu == "Model Performance":
 
     import pandas as pd
     import plotly.express as px
-    import pickle
+    import joblib
 
     # Load columns (VERY IMPORTANT)
-    columns = pickle.load(open(os.path.join(BASE_DIR, "columns.pkl"), "rb"))
+    columns = joblib.load(
+        os.path.join(BASE_DIR, "columns.pkl")
+    )
 
     # Get importance
     importance = model.feature_importances_
